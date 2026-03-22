@@ -560,6 +560,7 @@ function Carousel3D({ isDark = true }: { isDark?: boolean }) {
                     src={slide.image} 
                     alt={`Print ${index + 1}`} 
                     className="w-full h-full object-contain"
+                    style={{ borderRadius: "24px" }}
                   />
                 </div>
                 
