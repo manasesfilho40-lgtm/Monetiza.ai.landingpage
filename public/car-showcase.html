@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APEX Motors | Premium Car Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #ff4d00;
+      --primary-glow: rgba(255, 77, 0, 0.5);
+      --accent: #00f0ff;
+      --text: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.6);
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --bg-overlay: rgba(0, 0, 0, 0.4);
+    }
+
+    html, body {
+      overflow: hidden;
+      height: 100%;
+      cursor: none;
+      font-family: 'Rajdhani', sans-serif;
+      background: #000;
+    }
+
+    /* Custom Cursor */
+    .cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--primary);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, border-color 0.3s;
+    }
+
+    .cursor-dot {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10001;
+      transform: translate(-50%, -50%);
+      transition: background-color 0.3s;
+    }
+
+    .cursor.hover {
+      width: 40px;
+      height: 40px;
+      border-color: var(--accent);
+    }
+
+    /* Background Track */
+    .bg-track {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200vw;
+      height: 100vh;
+      display: flex;
+      transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .bg-slide {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bg-image {
+      position: absolute;
+      top: -5%;
+      left: -5%;
+      width: 110%;
+      height: 110%;
+      background-size: cover;
+      background-position: center;
+      transform-origin: center center;
+      transition: transform 8s ease-out;
+    }
+
+    .bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--bg-overlay);
+      transition: background 0.8s ease;
+    }
+
+    /* Corner Brackets */
+    .corner-brackets {
+      position: fixed;
+      inset: 20px;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .corner {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      transition: border-color 0.5s ease;
+    }
+
+    .corner::before,
+    .corner::after {
+      content: '';
+      position: absolute;
+      background: var(--primary);
+      transition: background 0.5s ease;
+    }
+
+    .corner-tl { top: 0; left: 0; }
+    .corner-tl::before { width: 60px; height: 2px; top: 0; left: 0; }
+    .corner-tl::after { width: 2px; height: 60px; top: 0; left: 0; }
+
+    .corner-tr { top: 0; right: 0; }
+    .corner-tr::before { width: 60px; height: 2px; top: 0; right: 0; }
+    .corner-tr::after { width: 2px; height: 60px; top: 0; right: 0; }
+
+    .corner-bl { bottom: 0; left: 0; }
+    .corner-bl::before { width: 60px; height: 2px; bottom: 0; left: 0; }
+    .corner-bl::after { width: 2px; height: 60px; bottom: 0; left: 0; }
+
+    .corner-br { bottom: 0; right: 0; }
+    .corner-br::before { width: 60px; height: 2px; bottom: 0; right: 0; }
+    .corner-br::after { width: 2px; height: 60px; bottom: 0; right: 0; }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 30px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 500;
+    }
+
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 4px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(45deg);
+      transition: border-color 0.5s ease;
+    }
+
+    .logo-icon span {
+      transform: rotate(-45deg);
+      font-size: 18px;
+      color: var(--primary);
+      transition: color 0.5s ease;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+    }
+
+    .nav-links a {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--primary);
+      transition: width 0.3s, background 0.5s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Ticker Bar */
+    .ticker-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: rgba(0, 0, 0, 0.8);
+      border-top: 1px solid var(--glass-border);
+      z-index: 500;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .ticker-content {
+      display: flex;
+      animation: ticker 30s linear infinite;
+      white-space: nowrap;
+    }
+
+    .ticker-item {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0 50px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .ticker-item span {
+      color: var(--primary);
+      transition: color 0.5s ease;
+    }
+
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Slide Indicator */
+    .slide-indicator {
+      position: fixed;
+      right: 60px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 500;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .indicator-dot {
+      width: 12px;
+      height: 12px;
+      border: 1px solid var(--glass-border);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .indicator-dot.active {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+
+    .indicator-dot::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 24px;
+      height: 24px;
+      border: 1px solid transparent;
+      border-radius: 50%;
+      transition: border-color 0.3s;
+    }
+
+    .indicator-dot:hover::after {
+      border-color: var(--primary);
+    }
+
+    /* Content Container */
+    .content-track {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 200;
+    }
+
+    .content-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 120px 60px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .content-slide.active {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .content-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 60px;
+    }
+
+    /* Left Content */
+    .left-content {
+      max-width: 600px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 4px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .badge-dot::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: var(--primary);
+      opacity: 0.5;
+      animation: pulse 2s ease-out infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.5; }
+      100% { transform: scale(2.5); opacity: 0; }
+    }
+
+    .badge-text {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(60px, 10vw, 120px);
+      line-height: 0.95;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+
+    .headline-line {
+      display: block;
+      overflow: hidden;
+    }
+
+    .headline-text {
+      display: inline-block;
+    }
+
+    .headline-text.solid {
+      color: var(--text);
+    }
+
+    .headline-text.outline {
+      color: transparent;
+      -webkit-text-stroke: 2px var(--text);
+    }
+
+    .headline-text.gradient {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--text-muted);
+      max-width: 400px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+    }
+
+    .cta-btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 16px 32px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-primary {
+      background: var(--primary);
+      color: #000;
+    }
+
+    .cta-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px var(--primary-glow);
+    }
+
+    .cta-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+    }
+
+    .cta-secondary:hover {
+      border-color: var(--text);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Right Content - Stats Card */
+    .stats-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      padding: 30px;
+      min-width: 280px;
+    }
+
+    .stats-header {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .stats-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .stat-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .stat-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      color: var(--text);
+    }
+
+    .stat-value span {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--text-muted);
+      margin-left: 4px;
+    }
+
+    .stat-bar {
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .stat-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 2px;
+      transition: width 0.8s ease;
+    }
+
+    /* Color Palettes */
+    [data-palette="orange"] {
+      --primary: #ff4d00;
+      --primary-glow: rgba(255, 77, 0, 0.5);
+      --accent: #ff9500;
+    }
+
+    [data-palette="cyan"] {
+      --primary: #00f0ff;
+      --primary-glow: rgba(0, 240, 255, 0.5);
+      --accent: #0080ff;
+    }
+
+    [data-palette="gold"] {
+      --primary: #ffd700;
+      --primary-glow: rgba(255, 215, 0, 0.5);
+      --accent: #ff8c00;
+    }
+
+    [data-palette="red"] {
+      --primary: #ff2d55;
+      --primary-glow: rgba(255, 45, 85, 0.5);
+      --accent: #ff6b6b;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav {
+        padding: 20px 30px;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .content-slide {
+        padding: 100px 30px 70px;
+      }
+      
+      .content-wrapper {
+        flex-direction: column;
+        gap: 30px;
+      }
+      
+      .left-content {
+        max-width: 100%;
+      }
+      
+      .stats-card {
+        width: 100%;
+        min-width: unset;
+      }
+      
+      .slide-indicator {
+        right: 20px;
+      }
+      
+      .corner-brackets {
+        inset: 10px;
+      }
+      
+      .corner {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .corner-tl::before,
+      .corner-tr::before,
+      .corner-bl::before,
+      .corner-br::before { width: 40px; }
+      
+      .corner-tl::after,
+      .corner-tr::after,
+      .corner-bl::after,
+      .corner-br::after { height: 40px; }
+      
+      .headline {
+        font-size: clamp(40px, 12vw, 80px);
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+      }
+      
+      .cta-btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body data-palette="orange">
+  <!-- Custom Cursor -->
+  <div class="cursor"></div>
+  <div class="cursor-dot"></div>
+
+  <!-- Corner Brackets -->
+  <div class="corner-brackets">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="logo">
+      <div class="logo-icon"><span>A</span></div>
+      APEX MOTORS
+    </div>
+    <div class="nav-links">
+      <a href="#" class="hover-target">Models</a>
+      <a href="#" class="hover-target">Performance</a>
+      <a href="#" class="hover-target">Technology</a>
+      <a href="#" class="hover-target">Configure</a>
+    </div>
+  </nav>
+
+  <!-- Background Track -->
+  <div class="bg-track">
+    <div class="bg-slide">
+      <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1920&q=80');"></div>
+      <div class="bg-overlay"></div>
+    </div>
+    <div class="bg-slide">
+      <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1920&q=80');"></div>
+      <div class="bg-overlay"></div>
+    </div>
+    <div class="bg-slide">
+      <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1920&q=80');"></div>
+      <div class="bg-overlay"></div>
+    </div>
+    <div class="bg-slide">
+      <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1580274455191-1c62238fa333?w=1920&q=80');"></div>
+      <div class="bg-overlay"></div>
+    </div>
+  </div>
+
+  <!-- Content Track -->
+  <div class="content-track">
+    <!-- Slide 1 -->
+    <div class="content-slide active" data-slide="0">
+      <div class="content-wrapper">
+        <div class="left-content">
+          <div class="badge">
+            <div class="badge-dot"></div>
+            <span class="badge-text">New Release 2024</span>
+          </div>
+          <h1 class="headline">
+            <span class="headline-line"><span class="headline-text solid">PURE</span></span>
+            <span class="headline-line"><span class="headline-text outline">POWER</span></span>
+            <span class="headline-line"><span class="headline-text gradient">REDEFINED</span></span>
+          </h1>
+          <p class="subtitle">Experience the future of automotive excellence. Raw power meets refined elegance in a machine built for those who dare to lead.</p>
+          <div class="cta-buttons">
+            <button class="cta-btn cta-primary hover-target">Explore Model</button>
+            <button class="cta-btn cta-secondary hover-target">Watch Film</button>
+          </div>
+        </div>
+        <div class="stats-card">
+          <div class="stats-header">Performance Specs</div>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-label">Horsepower</span>
+              <span class="stat-value">720<span>HP</span></span>
+            </div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width: 90%;"></div></div>
+            <div class="stat-item">
+              <span class="stat-label">0-60 MPH</span>
+              <span class="stat-value">2.9<span>SEC</span></span>
+            </div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width: 85%;"></div></div>
+            <div class="stat-item">
+              <span class="stat-label">Top Speed</span>
+              <span class="stat-value">211<span>MPH</span></span>
+            </div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width: 95%;"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="content-slide" data-slide="1">
+      <div class="content-wrapper">
+        <div class="left-content">
+          <div class="badge">
+            <div class="badge-dot"></div>
+            <span class="badge-text">Electric Revolution</span>
+          </div>
+          <h1 class="headline">
+            <span class="headline-line"><span class="headline-text solid">ELECTRIC</span></span>
+            <span class="headline-line"><span class="headline-text outline">DREAMS</span></span>
+            <span class="headline-line"><span class="headline-text gradient">UNLEASHED</span></span>
+          </h1>
+          <p class="subtitle">Zero emissions. Zero compromise. The electric future is here, and it's more thrilling than you ever imagined possible.</p>
+          <div class="cta-buttons">
+            <button class="cta-btn cta-primary hover-target">Discover More</button>
+            <button class="cta-btn cta-secondary hover-target">Book Test Drive</button>
+          </div>
+        </div>
+        <div class="stats-card">
+          <div class="stats-header">Electric Performance</div>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-label">Range</span>
+              <span class="stat-value">450<span>MI</span></span>
+            </div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width: 88%;"></div></div>
+            <div class="stat-item">
+              <span class="stat-label">Charge Time</span>
+              <span class="stat-value">18<span>MIN</span></span>
+            </div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width: 92%;"></div></div>
+            <div class="stat-item">
+              <span class="stat-label">Peak Power</span>
+              <span class="stat-value">1,020<span>HP</span></span>
+            </div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width: 100%;"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="content-slide" data-slide="2">
+      <div class="content-wrapper">
+        <div class="left-content">
+          <div class="badge">
+            <div class="badge-dot"></div>
+            <span class="badge-text">Track Beast</span>
+          </div>
+          <h1 class="headline">
+            <span class="headline-line"><span class="headline-text solid">BORN</span></span>
+            <span class="headline-line"><span class="headline-text outline">TO RACE</span></span>
+            <span class="headline-line"><span class="headline-text gradient">BRED TO WIN</span></span>
+          </h1>
+          <p class="subtitle">Engineered for the track, refined for the road. Every curve, every component designed with one purpose: pure domination.</p>
+          <div class="cta-buttons">
+            <button class="cta-btn cta-primary hover-target">View Specs</button>
+            <button class="cta-btn cta-secondary hover-target">Compare Models</button>
+          </div>
+        </div>
+        <div class="stats-card">
+          <div class="stats-header">Track Performance</div>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-label">Downforce</span>
+              <span class="stat-value">650<span>KG</span></span>
+            </div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width: 94%;"></div></div>
+            <div class="stat-item">
+              <span class="stat-label">Nurburgring</span>
+              <span class="stat-value">6:48<span>LAP</span></span>
+            </div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width: 97%;"></div></div>
+            <div class="stat-item">
+              <span class="stat-label">Power/Weight</span>
+              <span class="stat-value">1.68<span>KG/HP</span></span>
+            </div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width: 91%;"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="content-slide" data-slide="3">
+      <div class="content-wrapper">
+        <div class="left-content">
+          <div class="badge">
+            <div class="badge-dot"></div>
+            <span class="badge-text">Limited Edition</span>
+          </div>
+          <h1 class="headline">
+            <span class="headline-line"><span class="headline-text solid">RARE</span></span>
+            <span class="headline-line"><span class="headline-text outline">BEAUTY</span></span>
+            <span class="headline-line"><span class="headline-text gradient">TIMELESS</span></span>
+          </h1>
+          <p class="subtitle">Only 99 units worldwide. A masterpiece of design and engineering that transcends time and redefines exclusivity.</p>
+          <div class="cta-buttons">
+            <button class="cta-btn cta-primary hover-target">Reserve Yours</button>
+            <button class="cta-btn cta-secondary hover-target">Gallery</button>
+          </div>
+        </div>
+        <div class="stats-card">
+          <div class="stats-header">Limited Edition</div>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-label">Units</span>
+              <span class="stat-value">99<span>WORLDWIDE</span></span>
+            </div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width: 100%;"></div></div>
+            <div class="stat-item">
+              <span class="stat-label">Reserve Price</span>
+              <span class="stat-value">$2.5<span>M</span></span>
+            </div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width: 85%;"></div></div>
+            <div class="stat-item">
+              <span class="stat-label">Customization</span>
+              <span class="stat-value">∞<span>OPTIONS</span></span>
+            </div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width: 100%;"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide Indicators -->
+  <div class="slide-indicator">
+    <div class="indicator-dot active" data-slide="0"></div>
+    <div class="indicator-dot" data-slide="1"></div>
+    <div class="indicator-dot" data-slide="2"></div>
+    <div class="indicator-dot" data-slide="3"></div>
+  </div>
+
+  <!-- Ticker Bar -->
+  <div class="ticker-bar">
+    <div class="ticker-content">
+      <div class="ticker-item"><span>★</span> New Model Available</div>
+      <div class="ticker-item"><span>★</span> 0% Financing for 36 Months</div>
+      <div class="ticker-item"><span>★</span> Free Maintenance Program</div>
+      <div class="ticker-item"><span>★</span> Schedule Your Test Drive Today</div>
+      <div class="ticker-item"><span>★</span> Worldwide Delivery Available</div>
+      <div class="ticker-item"><span>★</span> New Model Available</div>
+      <div class="ticker-item"><span>★</span> 0% Financing for 36 Months</div>
+      <div class="ticker-item"><span>★</span> Free Maintenance Program</div>
+      <div class="ticker-item"><span>★</span> Schedule Your Test Drive Today</div>
+      <div class="ticker-item"><span>★</span> Worldwide Delivery Available</div>
+    </div>
+  </div>
+
+  <script>
+    // State
+    let currentSlide = 0;
+    const totalSlides = 4;
+    const palettes = ['orange', 'cyan', 'gold', 'red'];
+    let isAnimating = false;
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
+
+    // Elements
+    const body = document.body;
+    const bgTrack = document.querySelector('.bg-track');
+    const bgImages = document.querySelectorAll('.bg-image');
+    const contentSlides = document.querySelectorAll('.content-slide');
+    const indicators = document.querySelectorAll('.indicator-dot');
+    const cursor = document.querySelector('.cursor');
+    const cursorDot = document.querySelector('.cursor-dot');
+    const hoverTargets = document.querySelectorAll('.hover-target, a, button');
+
+    // Custom Cursor
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.left = mouseX + 'px';
+      cursor.style.top = mouseY + 'px';
+      cursorDot.style.left = mouseX + 'px';
+      cursorDot.style.top = mouseY + 'px';
+
+      // Parallax effect on background
+      targetX = (mouseX - window.innerWidth / 2) * 0.02;
+      targetY = (mouseY - window.innerHeight / 2) * 0.02;
+    });
+
+    // Hover effect on cursor
+    hoverTargets.forEach(target => {
+      target.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      target.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    // Parallax animation loop
+    function animateParallax() {
+      const currentSlideEl = bgImages[currentSlide];
+      if (currentSlideEl) {
+        const currentTransform = currentSlideEl.style.transform || '';
+        const zoom = 1.05; // Slow zoom amount
+        
+        // Parse current transform or use defaults
+        let currentX = 0;
+        let currentY = 0;
+        
+        // Smooth interpolation
+        currentX += (targetX - currentX) * 0.05;
+        currentY += (targetY - currentY) * 0.05;
+        
+        // Apply transform with slow zoom
+        currentSlideEl.style.transform = `translate(${currentX}px, ${currentY}px) scale(${zoom})`;
+      }
+      requestAnimationFrame(animateParallax);
+    }
+    animateParallax();
+
+    // Transition to slide
+    function goToSlide(index, direction = 'next') {
+      if (isAnimating || index === currentSlide) return;
+      isAnimating = true;
+
+      const prevSlide = currentSlide;
+      currentSlide = index;
+
+      // Update palette
+      body.setAttribute('data-palette', palettes[currentSlide]);
+
+      // Slide background track
+      bgTrack.style.transform = `translateX(-${currentSlide * 100}vw)`;
+
+      // Animate content with forced reflow
+      const currentContent = contentSlides[prevSlide];
+      const nextContent = contentSlides[currentSlide];
+
+      // Get elements to animate
+      const currentElements = currentContent.querySelectorAll('.badge, .headline-line, .subtitle, .cta-buttons, .stats-card');
+      const nextElements = nextContent.querySelectorAll('.badge, .headline-line, .subtitle, .cta-buttons, .stats-card');
+
+      // Animate current content down (exit)
+      currentElements.forEach((el, i) => {
+        el.style.transition = 'none';
+        el.style.transform = 'translateY(0)';
+        el.style.opacity = '1';
+        
+        // Force reflow
+        void el.offsetHeight;
+        
+        el.style.transition = `transform 0.5s ease ${i * 0.05}s, opacity 0.5s ease ${i * 0.05}s`;
+        el.style.transform = 'translateY(50px)';
+        el.style.opacity = '0';
+      });
+
+      // Animate next content up (enter)
+      nextElements.forEach((el, i) => {
+        el.style.transition = 'none';
+        el.style.transform = 'translateY(-50px)';
+        el.style.opacity = '0';
+        
+        // Force reflow
+        void el.offsetHeight;
+        
+        el.style.transition = `transform 0.6s ease ${0.2 + i * 0.08}s, opacity 0.6s ease ${0.2 + i * 0.08}s`;
+        el.style.transform = 'translateY(0)';
+        el.style.opacity = '1';
+      });
+
+      // Update active states
+      setTimeout(() => {
+        contentSlides.forEach(slide => slide.classList.remove('active'));
+        nextContent.classList.add('active');
+      }, 300);
+
+      // Update indicators
+      indicators.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentSlide);
+      });
+
+      // Reset animation lock
+      setTimeout(() => {
+        isAnimating = false;
+      }, 1000);
+    }
+
+    // Navigation handlers
+    function nextSlide() {
+      const next = (currentSlide + 1) % totalSlides;
+      goToSlide(next, 'next');
+    }
+
+    function prevSlide() {
+      const prev = (currentSlide - 1 + totalSlides) % totalSlides;
+      goToSlide(prev, 'prev');
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        prevSlide();
+      }
+    });
+
+    // Scroll navigation
+    let lastScrollTime = 0;
+    document.addEventListener('wheel', (e) => {
+      const now = Date.now();
+      if (now - lastScrollTime < 1000) return;
+      
+      if (e.deltaY > 0) {
+        nextSlide();
+        lastScrollTime = now;
+      } else if (e.deltaY < 0) {
+        prevSlide();
+        lastScrollTime = now;
+      }
+    }, { passive: true });
+
+    // Touch/Swipe navigation
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      touchEndY = e.changedTouches[0].screenY;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const diffX = touchStartX - touchEndX;
+      const diffY = touchStartY - touchEndY;
+      const minSwipeDistance = 50;
+
+      if (Math.abs(diffX) > Math.abs(diffY)) {
+        // Horizontal swipe
+        if (Math.abs(diffX) > minSwipeDistance) {
+          if (diffX > 0) {
+            nextSlide();
+          } else {
+            prevSlide();
+          }
+        }
+      } else {
+        // Vertical swipe
+        if (Math.abs(diffY) > minSwipeDistance) {
+          if (diffY > 0) {
+            nextSlide();
+          } else {
+            prevSlide();
+          }
+        }
+      }
+    }
+
+    // Indicator click navigation
+    indicators.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        goToSlide(index);
+      });
+    });
+
+    // Initialize first slide animations
+    document.addEventListener('DOMContentLoaded', () => {
+      const firstSlideElements = contentSlides[0].querySelectorAll('.badge, .headline-line, .subtitle, .cta-buttons, .stats-card');
+      firstSlideElements.forEach((el, i) => {
+        el.style.transition = 'none';
+        el.style.transform = 'translateY(-30px)';
+        el.style.opacity = '0';
+        
+        void el.offsetHeight;
+        
+        el.style.transition = `transform 0.8s ease ${0.3 + i * 0.1}s, opacity 0.8s ease ${0.3 + i * 0.1}s`;
+        el.style.transform = 'translateY(0)';
+        el.style.opacity = '1';
+      });
+    });
+
+    // Preload images for smoother transitions
+    const imageUrls = [
+      'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1920&q=80',
+      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1920&q=80',
+      'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1920&q=80',
+      'https://images.unsplash.com/photo-1580274455191-1c62238fa333?w=1920&q=80'
+    ];
+
+    imageUrls.forEach(url => {
+      const img = new Image();
+      img.src = url;
+    });
+  </script>
+</body>
+</html>

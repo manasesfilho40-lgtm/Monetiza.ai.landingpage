@@ -1,0 +1,364 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-dm-sans);
+  --font-heading: var(--font-syne);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  
+  /* CriadorPro Custom Colors */
+  --color-criador-dark: #0D0A08;
+  --color-criador-orange: #D95C18;
+  --color-criador-highlight: #F5944A;
+  --color-criador-cream: #F4EDE3;
+  --color-criador-gradient-start: #F27535;
+  --color-criador-gradient-mid: #D85515;
+  --color-criador-gradient-end: #A83808;
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: #0D0A08;
+  --foreground: #F4EDE3;
+  --card: #0D0A08;
+  --card-foreground: #F4EDE3;
+  --popover: #0D0A08;
+  --popover-foreground: #F4EDE3;
+  --primary: #F5944A;
+  --primary-foreground: #0D0A08;
+  --secondary: #1a1512;
+  --secondary-foreground: #F4EDE3;
+  --muted: #1a1512;
+  --muted-foreground: #8a827a;
+  --accent: #D95C18;
+  --accent-foreground: #F4EDE3;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: rgba(244, 237, 227, 0.1);
+  --input: rgba(244, 237, 227, 0.15);
+  --ring: #F5944A;
+  --chart-1: #F5944A;
+  --chart-2: #D95C18;
+  --chart-3: #F27535;
+  --chart-4: #A83808;
+  --chart-5: #D85515;
+  --sidebar: #0D0A08;
+  --sidebar-foreground: #F4EDE3;
+  --sidebar-primary: #F5944A;
+  --sidebar-primary-foreground: #0D0A08;
+  --sidebar-accent: #1a1512;
+  --sidebar-accent-foreground: #F4EDE3;
+  --sidebar-border: rgba(244, 237, 227, 0.1);
+  --sidebar-ring: #F5944A;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-dm-sans), sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-syne), sans-serif;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(244, 237, 227, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(244, 237, 227, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(244, 237, 227, 0.3);
+}
+
+/* Smooth animations */
+.smooth-transition {
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Card gradient */
+.card-gradient {
+  background: linear-gradient(145deg, #F27535 0%, #D85515 50%, #A83808 100%);
+}
+
+/* iPhone frame animation */
+@keyframes enterFromTopRight {
+  0% {
+    opacity: 0;
+    transform: translate(30%, -30%) rotate(-5deg) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(-5deg) scale(1);
+  }
+}
+
+@keyframes exitToBottomLeft {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(-5deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-30%, 30%) rotate(-5deg) scale(0.9);
+  }
+}
+
+.iphone-enter {
+  animation: enterFromTopRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.iphone-exit {
+  animation: exitToBottomLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Thumbnail animation */
+@keyframes thumbnailEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.thumbnail-enter {
+  animation: thumbnailEnter 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Dot pulse animation */
+@keyframes dotPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.dot-active {
+  animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+/* Prevent dark mode from affecting images */
+img {
+  color-scheme: light !important;
+  -webkit-filter: none !important;
+  filter: none !important;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Force images to render normally in dark mode */
+@media (prefers-color-scheme: dark) {
+  img {
+    filter: none !important;
+    -webkit-filter: none !important;
+  }
+  
+  html:not(.dark) img,
+  html.dark img {
+    filter: none !important;
+    -webkit-filter: none !important;
+  }
+}
+
+/* Webkit specific dark mode override */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  img {
+    -webkit-filter: none !important;
+    filter: none !important;
+  }
+}
+
+/* ============================================
+   LIQUID GLASS CARD STYLES
+   Efeito de distorção igual iOS 26
+   ============================================ */
+
+.liquid-glass-card {
+  position: relative;
+  border-radius: 24px;
+  padding: 24px;
+
+  /* Fundo quase invisível */
+  background: rgba(255, 255, 255, 0.02);
+
+  /* Distorção do fundo - Liquid Glass */
+  backdrop-filter: 
+    blur(12px) 
+    saturate(180%) 
+    brightness(1.1)
+    contrast(0.95);
+  -webkit-backdrop-filter: 
+    blur(12px) 
+    saturate(180%) 
+    brightness(1.1)
+    contrast(0.95);
+
+  /* Borda com brilho no topo */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top-color: rgba(255, 255, 255, 0.3);
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+
+  /* Sombra suave */
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.08),
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
+  overflow: hidden;
+}
+
+/* Reflexo principal que distorce */
+.liquid-glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.03) 55%,
+    transparent 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+  animation: liquidShimmer 8s ease-in-out infinite;
+}
+
+/* Linha brilhante no topo - specular */
+.liquid-glass-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent
+  );
+  z-index: 2;
+}
+
+/* Animação de shimmer - vidro vivo */
+@keyframes liquidShimmer {
+  0%, 100% {
+    background-position: -200% 0;
+    opacity: 0.5;
+  }
+  50% {
+    background-position: 200% 0;
+    opacity: 1;
+  }
+}
+
+.liquid-glass-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.15);
+  border-top-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: 
+    blur(16px) 
+    saturate(200%) 
+    brightness(1.15)
+    contrast(1);
+  -webkit-backdrop-filter: 
+    blur(16px) 
+    saturate(200%) 
+    brightness(1.15)
+    contrast(1);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Conteúdo acima */
+.liquid-glass-content {
+  position: relative;
+  z-index: 3;
+}
+
+/* Stats card variant */
+.liquid-glass-stats {
+  padding: 20px;
+  border-radius: 18px;
+}
+
+/* Feature card variant */
+.liquid-glass-feature {
+  padding: 20px;
+  border-radius: 18px;
+}
+
+/* Benefits card variant */
+.liquid-glass-benefits {
+  padding: 28px 32px;
+  border-radius: 24px;
+}
+
+@media (max-width: 640px) {
+  .liquid-glass-benefits {
+    padding: 20px;
+  }
+}
