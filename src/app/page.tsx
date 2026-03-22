@@ -535,14 +535,14 @@ function Carousel3D({ isDark = true }: { isDark?: boolean }) {
                 }}
               >
                 {/* Side buttons */}
-                <div className="absolute -right-[10px] top-24 w-[3px] h-8 rounded-l" style={{ backgroundColor: isDark ? "#333" : "#bbb" }} />
-                <div className="absolute -right-[10px] top-36 w-[3px] h-16 rounded-l" style={{ backgroundColor: isDark ? "#333" : "#bbb" }} />
-                <div className="absolute -right-[10px] top-56 w-[3px] h-16 rounded-l" style={{ backgroundColor: isDark ? "#333" : "#bbb" }} />
-                <div className="absolute -left-[10px] top-36 w-[3px] h-10 rounded-r" style={{ backgroundColor: isDark ? "#333" : "#bbb" }} />
+                <div className="absolute -right-[10px] top-24 w-[3px] h-8 rounded-l z-20" style={{ backgroundColor: isDark ? "#333" : "#bbb" }} />
+                <div className="absolute -right-[10px] top-36 w-[3px] h-16 rounded-l z-20" style={{ backgroundColor: isDark ? "#333" : "#bbb" }} />
+                <div className="absolute -right-[10px] top-56 w-[3px] h-16 rounded-l z-20" style={{ backgroundColor: isDark ? "#333" : "#bbb" }} />
+                <div className="absolute -left-[10px] top-36 w-[3px] h-10 rounded-r z-20" style={{ backgroundColor: isDark ? "#333" : "#bbb" }} />
                 
                 {/* Notch/Dynamic Island */}
                 <div 
-                  className="absolute top-3 left-1/2 -translate-x-1/2 z-10"
+                  className="absolute top-3 left-1/2 -translate-x-1/2 z-30"
                   style={{
                     width: "90px",
                     height: "28px",
@@ -551,21 +551,21 @@ function Carousel3D({ isDark = true }: { isDark?: boolean }) {
                   }}
                 />
                 
-                {/* Screen content - fills entire phone screen */}
+                {/* Screen content - fits image properly */}
                 <div 
-                  className="absolute inset-[10px] overflow-hidden"
-                  style={{ borderRadius: "35px" }}
+                  className="absolute inset-[10px] flex items-center justify-center overflow-hidden"
+                  style={{ borderRadius: "35px", backgroundColor: isDark ? "#0a0a0a" : "#f5f5f5" }}
                 >
                   <img 
                     src={slide.image} 
                     alt={`Print ${index + 1}`} 
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                 </div>
                 
                 {/* Home indicator */}
                 <div 
-                  className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10"
+                  className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30"
                   style={{
                     width: "100px",
                     height: "4px",
