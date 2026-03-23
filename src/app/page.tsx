@@ -452,10 +452,10 @@ function SingleMascot({
   return (
     <motion.div
       key={activeSection}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.3 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
       className={`w-full mb-6 flex items-center gap-3 ${
         position === "right" ? "justify-end flex-row-reverse" : "justify-start"
       }`}
@@ -891,7 +891,7 @@ export default function MonetizaLanding() {
           const visibleHeight = rect.height - visibleTop - visibleBottom;
           const visibility = Math.max(0, visibleHeight) / rect.height;
           
-          if (visibility > maxVisibility && visibility > 0.3) {
+          if (visibility > maxVisibility && visibility > 0.15) {
             maxVisibility = visibility;
             mostVisible = id;
           }
